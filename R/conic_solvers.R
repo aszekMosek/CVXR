@@ -36,17 +36,13 @@ is_stuffed_cone_objective <- function(objective) {
 #'
 #'    Attributes
 #'    ----------
-#'    zero : int
-#'        The dimension of the zero cone.
-#'    nonpos : int
-#'        The dimension of the non-positive cone.
-#'    exp : int
-#'        The dimension of the exponential cone.
-#'    soc : list of int
-#'        A list of the second-order cone dimensions.
-#'    psd : list of int
-#'        A list of the positive semidefinite cone dimensions, where the
-#'        dimension of the PSD cone of k by k matrices is k.
+#' @param zero An int that is the dimension of the zero cone.
+#' @param nonpos An int that is the dimension of the non-positive cone.
+#' @param exp An int that is the dimension of the exponential cone.
+#' @param soc A list of the second-order cone dimensions.
+#' @param psd A list of the positive semidefinite cone dimensions, where the
+#' dimension of the PSD cone of k by k matrices is k.
+#'        
 .ConeDims <- setClass("ConeDims", representation(constr_map = "list", zero = "numeric", nonpos = "numeric", exp = "numeric", soc = "list", psd = "list"),
                                   prototype(zero = NA_real_, nonpos = NA_real_, exp = NA_real_, soc = list(), psd = list()))
 
@@ -77,6 +73,7 @@ setMethod("supported_constraints", "ConicSolver", function(solver) { c("ZeroCons
 # For such solvers, requires_constr should return TRUE.
 setMethod("requires_constr", "ConicSolver", function(solver) { FALSE })
 
+#' @describeIn Returns whether or not a problem can be solved with ConicSolver
 setMethod("accepts", signature(object = "ConicSolver", problem = "Problem"), function(object, problem) {
   return(class(problem@objective) == "Minimize" && (mip_capable(object) || !is_mixed_integer(problem)) && is_stuffed_cone_objective(problem@objective)
     && length(convex_attributes(variables(problem))) == 0 && (length(problem@constraints) > 0 || !requires_constr(object))
@@ -84,6 +81,8 @@ setMethod("accepts", signature(object = "ConicSolver", problem = "Problem"), fun
     && all(sapply(problem@constraints, is_stuffed_cone_constraint)))
 })
 
+#' @param expr A CVXR expression
+#' @describeIn Returns the coefficient A and offset b in A*x + b
 ConicSolver.get_coeff_offset <- function(expr) {
   # Return the coefficient and offset in A %*% x + b.
   if(class(expr) == "Reshape")   # May be a Reshape as root.
@@ -103,6 +102,10 @@ ConicSolver.get_coeff_offset <- function(expr) {
   return(list(coeff, offset))
 }
 
+#' @param dim A list of the form (rows in matrix, columns in matrix)
+#' @param spacing An int of the number of rows between each nonzero
+#' @param offset An int of the number of zero rows at the beginning of the matrix
+#' @describeIn Returns a sparse matrix that spaces out an expression.
 ConicSolver.get_spacing_matrix <- function(dim, spacing, offset) {
   # Returns a sparse matrix that spaces out an expression.
   val_arr <- c()
@@ -127,6 +130,10 @@ ConicSolver.get_spacing_matrix <- function(dim, spacing, offset) {
   return(mat)
 }
 
+#' @param problem The problem that is the provenance of the constraint
+#' @param constr The constraint to format
+#' @describeIn Returns the coefficient "A" and offset "b" for the constraint in the
+# TODO:DK: should we describe further as in CVXPY?
 setMethod("reduction_format_constr", "ConicSolver", function(object, problem, constr, exp_cone_order) {
   coeffs <- list()
   offsets <- list()
@@ -175,6 +182,10 @@ setMethod("reduction_format_constr", "ConicSolver", function(object, problem, co
     stop("Unsupported constraint type.")
 })
 
+#' @param problem The CVXR problem that is the provenance of the constraints.
+#' @param constraints List of constraints to process
+#' @describeIn Combines the constraints into a single matrix A, offset b to return a list
+#' of the coefficient matrix and the offset vector
 setMethod("group_coeff_offset", "ConicSolver", function(object, problem, constraints, exp_cone_order) {
   # Combine the constraints into a single matrix, offset.
   if(is.na(constraints) || is.null(constraints) || length(constraints) == 0)
@@ -191,8 +202,10 @@ setMethod("group_coeff_offset", "ConicSolver", function(object, problem, constra
   return(list(coeff, offset))
 })
 
+#' @param solution The \linkS4class{Solution} to invert
+#' @param inverse_data The \linkS4class{InverseData} to utilize to invert the solution
+#' @describeIn Returns the solution to the original problem given the inverse_data.
 setMethod("invert", signature(object = "ConicSolver", solution = "Solution", inverse_data = "InverseData"), function(object, solution, inverse_data) {
-  # Returns the solution to the original problem given the inverse_data.
   status <- solution$status
 
   if(status %in% SOLUTION_PRESENT) {
@@ -218,6 +231,12 @@ setMethod("invert", signature(object = "ConicSolver", solution = "Solution", inv
   return(Solution(status, opt_val, primal_vars, dual_vars, list()))
 })
 
+#'
+#' The ECOS solver class.
+#'
+#' An interface for the ECOS solver
+#'
+#' @rdname ECOS-class
 ECOS <- setClass("ECOS", representation(exp_cone_order = "numeric"),   # Order of exponential cone arguments for solver. Internal only!
                  prototype(exp_cone_order = c(0, 2, 1)), contains = "ConicSolver")
 
@@ -236,7 +255,8 @@ setMethod("supported_constraints", "ECOS", function(solver) { c(supported_constr
 # ECOS_SIGINT   (-4)  solver interrupted by a signal/ctrl-c
 # ECOS_FATAL    (-7)  Unknown problem in solver
 
-# Map of ECOS status to CVXR status.
+#' @param status An int of the status returned by the ECOS solver
+#' @describeIn Map of ECOS status to CVXR status.
 setMethod("status_map", "ECOS", function(solver, status) {
   if(status == 0)
     return(OPTIMAL)
@@ -256,9 +276,13 @@ setMethod("status_map", "ECOS", function(solver, status) {
     stop("ECOS status unrecognized: ", status)
 })
 
+#' @describeIn Imports the solver
 setMethod("import_solver", "ECOS", function(solver) { requireNamespace("ECOSolveR", quietly = TRUE) })
 
 setMethod("name", "ECOS", function(x) { ECOS_NAME })
+
+#' @param problem A \linkS4class{Problem} to be converted into a new problem to be taken by the ECOS solver
+#' @describeIn Returns a new problem and data for inverting the new solution.
 setMethod("perform", signature(object = "ECOS", problem = "Problem"), function(object, problem) {
   data <- list()
   inv_data <- list()
@@ -286,6 +310,9 @@ setMethod("perform", signature(object = "ECOS", problem = "Problem"), function(o
   return(list(object, data, inv_data))
 })
 
+#' @param solution A solution in the form of a list to be adjusted with the invere_data
+#' @param inverse_data The inverse_data given by perform in the form of a list used to adjust solution
+#' @describeIn Returns solution to original problem, given inverse_data.
 setMethod("invert", signature(object = "ECOS", solution = "list", inverse_data = "list"), function(object, solution, inverse_data) {
   status <- status_map(object, solution$retcodes[["exitFlag"]])
 
@@ -312,6 +339,12 @@ setMethod("invert", signature(object = "ECOS", solution = "list", inverse_data =
     return(failure_solution(status))
 })
 
+#' @param data A list of all relevant data given by perform
+#' @param warm_start Warm start not yet implemented
+#' @param verbose A boolean to determine whether or not to return full ECOS solver output
+#' @param solver_opts A list of solver options given by the user for ECOS
+#' @param solver_cache Not yet implemented
+#' @describeIn Given the data from the perform function for ECOS, returns a solution to be given to the invert function
 setMethod("solve_via_data", "ECOS", function(object, data, warm_start, verbose, solver_opts, solver_cache = list()) {
   requireNamespace("ECOSolveR", quietly = TRUE)
   cones <- ECOS.dims_to_solver_dict(data[[ConicSolver()@dims]])
