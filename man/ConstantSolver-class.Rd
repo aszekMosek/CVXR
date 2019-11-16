@@ -9,6 +9,7 @@
 \alias{perform,ConstantSolver,Problem-method}
 \alias{invert,ConstantSolver,Solution,list-method}
 \alias{name,ConstantSolver-method}
+\alias{import_solver,ConstantSolver-method}
 \alias{is_installed,ConstantSolver-method}
 \alias{solve_via_data,ConstantSolver-method}
 \alias{reduction_solve,ConstantSolver,ANY-method}
@@ -24,6 +25,8 @@
   inverse_data)
 
 \S4method{name}{ConstantSolver}(x)
+
+\S4method{import_solver}{ConstantSolver}(solver)
 
 \S4method{is_installed}{ConstantSolver}(solver)
 
@@ -66,6 +69,8 @@ The ConstantSolver class.
 \item \code{invert}: Returns the solution.
 
 \item \code{name}: Returns the name of the solver.
+
+\item \code{import_solver}: Imports the solver.
 
 \item \code{is_installed}: Is the solver installed?
 

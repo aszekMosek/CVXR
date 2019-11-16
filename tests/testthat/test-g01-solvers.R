@@ -135,6 +135,7 @@ test_that("Test a basic MILP with GLPK", {
 test_that("Test a basic LP with CPLEX", {
   if("CPLEX" %in% installed_solvers()) {
     prob <- Problem(Minimize(p_norm(x,1) + 1.0), list(x == 0))
+    debugonce(solve, signature = c("CPLEX_CONIC"))
     result <- solve(prob, solver = "CPLEX")
     expect_equal(result$value, 1.0, tolerance = TOL)
     expect_equal(result$getValue(x), as.matrix(c(0, 0)), tolerance = TOL)
@@ -184,6 +185,7 @@ test_that("Test a basic LP with CPLEX", {
 test_that("Test a basic SOCP with CPLEX", {
   if("CPLEX" %in% installed_solvers()) {
     prob <- Problem(Minimize(p_norm(x,2) + 1.0), list(x == 0))
+    browser()
     result <- solve(prob, solver = "CPLEX")
     expect_equal(result$value, 1.0, tolerance = TOL)
     expect_equal(result$getValue(x), as.matrix(c(0, 0)), tolerance = TOL)
