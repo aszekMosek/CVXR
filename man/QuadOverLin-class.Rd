@@ -61,11 +61,17 @@ QuadOverLin(x, y)
 
 \item{object}{A \linkS4class{QuadOverLin} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+\item{values}{A list of numeric values for the arguments}
+
+\item{idx}{An index into the atom.}
+>>>>>>> 1.0
 }
 \description{
 This class represents the sum of squared entries in X divided by a scalar y, \eqn{\sum_{i,j} X_{i,j}^2/y}.

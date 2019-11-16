@@ -41,6 +41,7 @@ NormNuc(A)
 
 \item{object}{A \linkS4class{NormNuc} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
@@ -48,6 +49,11 @@ NormNuc(A)
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+\item{values}{A list of numeric values for the arguments}
+
+\item{idx}{An index into the atom.}
+>>>>>>> 1.0
 }
 \description{
 The nuclear norm, i.e. sum of the singular values of a matrix.

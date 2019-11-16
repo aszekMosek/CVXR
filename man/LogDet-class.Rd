@@ -41,11 +41,17 @@ LogDet(A)
 
 \item{object}{A \linkS4class{LogDet} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+\item{values}{A list of numeric values for the arguments}
+
+\item{idx}{An index into the atom.}
+>>>>>>> 1.0
 }
 \description{
 The natural logarithm of the determinant of a matrix, \eqn{\log\det(A)}.

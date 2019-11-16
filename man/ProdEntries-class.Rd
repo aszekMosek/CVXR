@@ -47,10 +47,13 @@ ProdEntries(..., axis = NA_real_, keepdims = FALSE)
 \item{values}{A list of numeric values for the arguments}
 
 \item{idx}{An index into the atom.}
+<<<<<<< HEAD
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 The product of the entries in an expression.

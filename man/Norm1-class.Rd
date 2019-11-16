@@ -26,8 +26,11 @@
 \item{x, object}{A \linkS4class{Norm1} object.}
 
 \item{values}{A list of numeric values for the arguments}
+<<<<<<< HEAD
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 This class represents the 1-norm of an expression.

@@ -60,14 +60,21 @@ GeoMean(x, p = NA_real_, max_denom = 1024)
 
 \item{object}{A \linkS4class{GeoMean} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
+=======
+\item{values}{A list of numeric values for the arguments}
+>>>>>>> 1.0
 
 \item{idx}{An index into the atom.}
 
 \item{args}{An optional list that contains the arguments to reconstruct the atom. Default is to use current arguments of the aotm}
 
+<<<<<<< HEAD
 \item{values}{A list of numeric values for the arguments}
 
+=======
+>>>>>>> 1.0
 \item{x, object}{A \linkS4class{GeoMean} object.}
 }
 \description{

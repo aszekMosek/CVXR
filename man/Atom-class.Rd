@@ -54,8 +54,12 @@
 
 \S4method{canonicalize}{Atom}(object)
 
+<<<<<<< HEAD
 \S4method{graph_implementation}{Atom}(object, arg_objs, dim,
   data = NA_real_)
+=======
+\S4method{graph_implementation}{Atom}(object, arg_objs, dim, data = NA_real_)
+>>>>>>> 1.0
 
 \S4method{value_impl}{Atom}(object)
 

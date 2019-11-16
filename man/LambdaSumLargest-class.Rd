@@ -31,8 +31,11 @@ LambdaSumLargest(A, k)
 
 \item{object}{A \linkS4class{LambdaSumLargest} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
+=======
+>>>>>>> 1.0
 \item{values}{A list of numeric values for the arguments}
 }
 \description{

@@ -64,10 +64,13 @@ QuadForm(x, P)
 \item{idx}{An index into the atom.}
 
 \item{x, object}{A \linkS4class{QuadForm} object.}
+<<<<<<< HEAD
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 This class represents the quadratic form \eqn{x^T P x}

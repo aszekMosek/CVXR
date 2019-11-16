@@ -41,11 +41,17 @@ SigmaMax(A = A)
 
 \item{object}{A \linkS4class{SigmaMax} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+\item{values}{A list of numeric values for the arguments}
+
+\item{idx}{An index into the atom.}
+>>>>>>> 1.0
 }
 \description{
 The maximum singular value of a matrix.

@@ -47,13 +47,20 @@ EyeMinusInv(X)
 
 \item{object}{A \linkS4class{EyeMinusInv} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
+=======
+\item{values}{A list of numeric values for the arguments}
+>>>>>>> 1.0
 
 \item{x, object}{An \linkS4class{EyeMinusInv} object.}
 
 \item{idx}{An index into the atom.}
+<<<<<<< HEAD
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 This class represents the unity resolvent of an elementwise positive matrix \eqn{X}, i.e., \eqn{(I - X)^{-1}},

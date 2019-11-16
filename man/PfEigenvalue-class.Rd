@@ -45,15 +45,22 @@ PfEigenvalue(X)
 \arguments{
 \item{x}{An \linkS4class{Expression} or numeric matrix.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
+=======
+\item{values}{A list of numeric values for the arguments}
+>>>>>>> 1.0
 
 \item{idx}{An index into the atom.}
 
 \item{x, object}{A \linkS4class{PfEigenvalue} object.}
+<<<<<<< HEAD
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 This class represents the Perron-Frobenius eigenvalue of a positive matrix.

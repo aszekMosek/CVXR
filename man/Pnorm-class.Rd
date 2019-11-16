@@ -23,8 +23,12 @@
 \alias{.column_grad,Pnorm-method}
 \title{The Pnorm class.}
 \usage{
+<<<<<<< HEAD
 Pnorm(x, p = 2, axis = NA_real_, keepdims = FALSE,
   max_denom = 1024)
+=======
+Pnorm(x, p = 2, axis = NA_real_, keepdims = FALSE, max_denom = 1024)
+>>>>>>> 1.0
 
 \S4method{allow_complex}{Pnorm}(object)
 
@@ -69,17 +73,24 @@ Pnorm(x, p = 2, axis = NA_real_, keepdims = FALSE,
 
 \item{object}{A \linkS4class{Pnorm} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
+=======
+\item{values}{A list of numeric values for the arguments}
+>>>>>>> 1.0
 
 \item{idx}{An index into the atom.}
 
 \item{x, object}{A \linkS4class{Pnorm} object.}
+<<<<<<< HEAD
 
 \item{values}{A list of numeric values for the arguments}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 This class represents the vector p-norm.

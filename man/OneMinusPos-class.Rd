@@ -45,15 +45,22 @@ OneMinusPos(x)
 \arguments{
 \item{x}{An \linkS4class{Expression} or numeric matrix.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
+=======
+\item{values}{A list of numeric values for the arguments}
+>>>>>>> 1.0
 
 \item{idx}{An index into the atom.}
 
 \item{x, object}{A \linkS4class{OneMinusPos} object.}
+<<<<<<< HEAD
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+>>>>>>> 1.0
 }
 \description{
 This class represents the difference \eqn{1 - x} with domain \eqn{\{x : 0 < x < 1}\}

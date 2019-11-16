@@ -49,6 +49,7 @@ MaxEntries(x, axis = NA_real_, keepdims = FALSE)
 
 \item{object}{A \linkS4class{MaxEntries} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
@@ -58,6 +59,11 @@ MaxEntries(x, axis = NA_real_, keepdims = FALSE)
 \item{values}{A list of numeric values for the arguments}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+\item{values}{A list of numeric values for the arguments}
+
+\item{idx}{An index into the atom.}
+>>>>>>> 1.0
 }
 \description{
 The maximum of an expression.

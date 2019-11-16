@@ -46,11 +46,17 @@ SumLargest(x, k)
 
 \item{object}{A \linkS4class{SumLargest} object.}
 
+<<<<<<< HEAD
 \item{values}{A list of arguments to the atom.}
 
 \item{idx}{An index into the atom.}
 
 \item{values}{A list of numeric values for the arguments}
+=======
+\item{values}{A list of numeric values for the arguments}
+
+\item{idx}{An index into the atom.}
+>>>>>>> 1.0
 }
 \description{
 The sum of the largest k values of a matrix.
