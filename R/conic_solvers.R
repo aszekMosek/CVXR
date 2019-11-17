@@ -825,6 +825,7 @@ setMethod("perform", signature(object = "CPLEX_CONIC", problem = "Problem"), fun
 #' @describeIn CPLEX_CONIC Returns the solution to the original problem given the inverse_data.
 setMethod("invert", signature(object = "CPLEX_CONIC", solution = "list", inverse_data = "list"), function(object, solution, inverse_data) {
   # Returns the solution to the original problem given the inverse_data.
+  
   model <- solution$model
 
   status <- status_map(object, model$status)
@@ -840,11 +841,11 @@ setMethod("invert", signature(object = "CPLEX_CONIC", solution = "list", inverse
     #Only add duals if not a MIP
     if(!inverse_data[["is_mip"]]) {
       #eq and leq constraints all returned at once by CPLEX
-      #eq_dual <- get_dual_values(solution$eq_dual, extract_dual_value, inverse_data[[object@eq_constr]])
-      #leq_dual <- get_dual_values(solution$ineq_dual, extract_dual_value, inverse_data[[object@neq_constr]])
-      #eq_dual <- utils::modifyList(eq_dual, leq_dual)
-      dual_vars <- get_dual_values(solution$y, extract_dual_value, inverse_data[[object@neq_constr]])
-      #dual_vars <- eq_dual
+      eq_dual <- get_dual_values(solution$eq_dual, extract_dual_value, inverse_data[[object@eq_constr]])
+      leq_dual <- get_dual_values(solution$ineq_dual, extract_dual_value, inverse_data[[object@neq_constr]])
+      eq_dual <- utils::modifyList(eq_dual, leq_dual)
+      #dual_vars <- get_dual_values(solution$y, extract_dual_value, inverse_data[[object@neq_constr]])
+      dual_vars <- eq_dual
 
     } else {
       primal_vars <- list()
@@ -901,9 +902,10 @@ setMethod("solve_via_data", "CPLEX_CONIC", function(object, data, warm_start, ve
 
   #Add inequalities
   leq_start <- dims@zero
-
-  for(j in 1:dims@nonpos){
-    sense_vec[leq_start + j] <- "L"
+  leq_end <- dims@zero + dims@nonpos
+  
+  for(j in leq_start:leq_end){
+    sense_vec[j + 1] <- "L"
   }
 
   #Setting Lower bounds of variables
@@ -916,7 +918,7 @@ setMethod("solve_via_data", "CPLEX_CONIC", function(object, data, warm_start, ve
 
   for(i in seq_along(dims@soc)){
     for(j in 1:dims@soc[[i]]){
-      sense_vec[soc_start + j] <- "E"
+      sense_vec[soc_start + dims@soc[[i]][j]] <- "E"
       if(j == 1){
         lb[current_var + j] <- 0 #The first variable of every SOC has a 0 lower bound
       }
@@ -987,8 +989,7 @@ setMethod("solve_via_data", "CPLEX_CONIC", function(object, data, warm_start, ve
     #control parameter would be used to set specific solver arguments. See cran Rcplex documentation
   }, error = function(e) {
     results_dict$status <- SOLVER_ERROR
-  }
-  )
+  })
 
   #Changing dualvar to include SOC
   y <- model$extra$lambda
@@ -999,6 +1000,8 @@ setMethod("solve_via_data", "CPLEX_CONIC", function(object, data, warm_start, ve
   }
   results_dict$y <- -y
   results_dict$model <- model
+  results_dict$eq_dual <- results_dict$y[1:dims@zero]
+  results_dict$ineq_dual <- results_dict$y[-(1:dims@zero)]
 
   return(results_dict)
 
